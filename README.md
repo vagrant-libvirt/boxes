@@ -66,10 +66,14 @@ checksums, `config.vm.box_version` and `vagrant box update` keep working.
    scripts/publish-box.sh debian10 4.3.12 archive/debian10-4.3.12.libvirt.box
    ```
 
-The `Publish Catalog` workflow then regenerates every `site/*.json` from the
-releases of this repository and deploys them to GitHub Pages. Nothing about the
-catalog is committed — a release is the single source of truth, so deleting a
-release removes that version from the catalog on the next run.
+`publish-box.sh` then dispatches the `Publish Catalog` workflow on `main`,
+which regenerates every `site/*.json` from the releases of this repository and
+deploys them to GitHub Pages.
+
+
+```shell
+gh workflow run publish-catalog.yml --ref main --repo vagrant-libvirt/boxes
+```
 
 Release assets are free and CDN-served for public repositories, with a 2 GiB
 limit per asset. Box files are never committed to git and never go through Git

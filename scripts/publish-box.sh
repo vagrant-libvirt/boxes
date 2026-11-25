@@ -61,6 +61,10 @@ else
         "${WORK}/${ASSET}" "${WORK}/${ASSET}.sha256"
 fi
 
+echo "==> refreshing the catalog"
+gh workflow run publish-catalog.yml --ref main --repo "${REPO}"
+
 echo
-echo "published. the catalog workflow will refresh"
+echo "published. the catalog workflow is rebuilding"
 echo "  https://vagrant-libvirt.github.io/boxes/${NAME}.json"
+echo "follow it with: gh run watch --repo ${REPO}"
