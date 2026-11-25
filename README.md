@@ -93,20 +93,6 @@ Boxes built from scratch rather than archived (a replacement for the
 discontinued `generic/*` boxes, for instance) get a build recipe of their own
 here; `scripts/build-two-disks-box.sh` is the first of them.
 
-## Consuming side
-
-vagrant-libvirt's acceptance tests have to be repointed once the boxes are
-published, in:
-
-- `spec/acceptance/support-skeletons/*/Vagrantfile` — `config.vm.box` plus a new
-  `config.vm.box_url`
-- `spec/acceptance/support-skeletons/two_disks/Vagrantfile` — the
-  `config.vm.box_version` pin stays `0.0.2` as long as the boxes are republished
-  under their upstream version numbers
-- `tools/create_box_with_two_disks.sh` — obsolete once
-  `vagrant-libvirt/tinycore-two-disks` is published, as the box no longer has to
-  be assembled on the fly
-
 ## Provenance and licensing
 
 - `tinycore` and `tinycore-two-disks` originate from `infernix/tinycore`, built
