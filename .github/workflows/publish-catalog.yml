@@ -1,5 +1,9 @@
 name: Publish Catalog
 
+# Not triggered by `release` events: a release-triggered run carries the tag as
+# its ref, which the github-pages environment rejects because it only allows
+# deployments from the default branch. scripts/publish-box.sh dispatches this
+# workflow on main instead, after creating or updating a release.
 on:
   workflow_dispatch:
   push:
@@ -17,18 +21,12 @@ concurrency:
 
 permissions:
   contents: read
-  # actions/deploy-pages reads the uploaded artifact through the Actions API
-  actions: read
-  pages: write
-  id-token: write
 
 jobs:
-  publish:
+  # building and deploying are separate jobs because actions/deploy-pages can
+  # only look up the artifact once the job that uploaded it has finished
+  build:
     runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
 
     env:
       GITHUB_TOKEN: ${{ github.token }}
@@ -47,5 +45,22 @@ jobs:
     - uses: actions/upload-pages-artifact@v5
       with:
         path: site
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      # actions/deploy-pages reads the uploaded artifact through the Actions API
+      actions: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
     - id: deploy
       uses: actions/deploy-pages@v5
