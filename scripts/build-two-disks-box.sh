@@ -37,7 +37,6 @@ echo "==> writing metadata.json"
 cat > "${WORK}/metadata.json" <<'JSON'
 {
   "provider": "libvirt",
-  "format": "qcow2",
   "disks": [
     {
       "path": "box.img"
