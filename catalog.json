@@ -1,0 +1,18 @@
+{
+  "namespace": "vagrant-libvirt",
+  "base_url": "https://vagrant-libvirt.github.io/boxes",
+  "boxes": {
+    "tinycore": {
+      "description": "Minimal Tiny Core Linux box used by the vagrant-libvirt acceptance tests. Archived from the HCP Vagrant box infernix/tinycore before the registry shut down.",
+      "upstream": "infernix/tinycore"
+    },
+    "tinycore-two-disks": {
+      "description": "Tiny Core Linux box with a second blank 10G disk, used by the two disks acceptance test. Built from vagrant-libvirt/tinycore by scripts/build-two-disks-box.sh; it was never published to a registry.",
+      "derived_from": "vagrant-libvirt/tinycore"
+    },
+    "debian10": {
+      "description": "Debian 10 box with qemu-guest-agent, used by the qemu agent and package domain acceptance tests. Archived from the HCP Vagrant box generic/debian10 before the registry shut down.",
+      "upstream": "generic/debian10"
+    }
+  }
+}

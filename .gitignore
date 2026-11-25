@@ -1,0 +1,7 @@
+# box artifacts are published as release assets, never committed
+*.box
+*.box.sha256
+*.meta.json
+/archive/
+/build/
+/site/

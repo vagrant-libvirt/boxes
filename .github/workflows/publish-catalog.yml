@@ -1,0 +1,51 @@
+name: Publish Catalog
+
+on:
+  release:
+    types: [published, edited, deleted, released]
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'catalog.json'
+      - 'scripts/build-catalog.py'
+      - '.github/workflows/publish-catalog.yml'
+
+# allow one concurrent deployment, skipping queued runs in between
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build catalog
+      run: ./scripts/build-catalog.py --repo ${{ github.repository }} --out site
+    - name: Show catalog
+      run: |
+        for metadata in site/*.json; do
+          echo "--- ${metadata}"
+          cat "${metadata}"
+        done
+    - uses: actions/configure-pages@v5
+    - uses: actions/upload-pages-artifact@v3
+      with:
+        path: site
+    - id: deploy
+      uses: actions/deploy-pages@v4

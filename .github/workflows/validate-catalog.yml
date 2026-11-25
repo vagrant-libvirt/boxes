@@ -1,0 +1,26 @@
+name: Validate Catalog
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check shell scripts
+      run: |
+        sudo apt-get update && sudo apt-get install -y shellcheck
+        shellcheck scripts/*.sh
+    - name: Check catalog.json
+      run: jq -e '.namespace and .base_url and (.boxes | length > 0)' catalog.json
+    - name: Build catalog
+      run: ./scripts/build-catalog.py --repo ${{ github.repository }} --out site
