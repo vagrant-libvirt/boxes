@@ -13,6 +13,11 @@
     "debian10": {
       "description": "Debian 10 box with qemu-guest-agent, used by the qemu agent and package domain acceptance tests. Archived from the HCP Vagrant box generic/debian10 before the registry shut down.",
       "upstream": "generic/debian10"
+    },
+    "almalinux10": {
+      "description": "AlmaLinux 10 box used by the virtiofs acceptance test, which needs a guest kernel recent enough to carry the virtiofs driver. Mirrored from the AlmaLinux box almalinux/10, which upstream keeps publishing itself.",
+      "upstream": "almalinux/10",
+      "upstream_catalog": "https://vagrant.almalinux.org/almalinux/10"
     }
   }
 }
